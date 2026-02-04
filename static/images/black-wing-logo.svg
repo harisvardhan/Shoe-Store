@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Refined black shoe with wing (monochrome SVG) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80" aria-hidden="true" role="img">
+  <title>Black shoe with wing logo</title>
+  <defs>
+    <style> .solid { fill: #000; } </style>
+  </defs>
+  <!-- Shoe silhouette -->
+  <path class="solid" d="M6 48c6-14 28-20 54-18 18 1.6 36 2 50 2 10 0 20 3 28 7 3 1.6 4.8 4.8 4.2 7.6-1.2 5.4-7.2 8.6-13.5 9.8-9.6 1.8-21.6 3-33.9 3-24.6 0-47.2-6.8-61.6-10.4-9.1-2.2-14.7-5-13.5-9z"/>
+
+  <!-- Midsole detail -->
+  <path class="solid" d="M28 42c10-2 20-2.6 32-1.6" fill-opacity="0.06"/>
+
+  <!-- Wing group to the right of shoe -->
+  <g transform="translate(110,6)">
+    <!-- Primary wing shape -->
+    <path class="solid" d="M0 28c16-10 40-28 78-30 0 0-8 18-26 28-16 9-36 18-52 22-6 1.6-8 0-8 0z"/>
+    <!-- Feather strokes -->
+    <path class="solid" d="M8 22c12-8 32-20 58-22 0 0-6 12-18 18-10 5-24 10-36 12-3 .6-4 0-4 0z" fill-opacity="0.9"/>
+    <path class="solid" d="M18 14c8-6 20-12 38-14 0 0-3 6-9 9-5 2-12 5-20 6-2 .4-3 0-3 0z" fill-opacity="0.8"/>
+  </g>
+</svg>

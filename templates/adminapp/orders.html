@@ -1,0 +1,87 @@
+{% extends 'adminapp/base.html' %}
+
+{% block navbar_title %}Orders Management{% endblock %}
+
+{% block content %}
+<!-- STATUS FILTER -->
+<div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+    <a href="{% url 'admin_orders' %}" class="btn-primary btn-sm {% if not status_filter %}active{% endif %}" style="{% if status_filter %}background: rgba(124, 58, 237, 0.1); color: #7c3aed;{% endif %}">
+        All Orders ({{ orders.count }})
+    </a>
+    <a href="?status=pending" class="btn-secondary btn-sm">
+        <i class="fas fa-clock"></i> Pending
+    </a>
+    <a href="?status=confirmed" class="btn-secondary btn-sm">
+        <i class="fas fa-check"></i> Confirmed
+    </a>
+    <a href="?status=shipped" class="btn-secondary btn-sm">
+        <i class="fas fa-truck"></i> Shipped
+    </a>
+    <a href="?status=delivered" class="btn-secondary btn-sm">
+        <i class="fas fa-box"></i> Delivered
+    </a>
+</div>
+
+<!-- ORDERS TABLE -->
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Orders</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Email</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td><strong>#{{ order.id }}</strong></td>
+                <td>{{ order.user.get_full_name|default:order.user.username }}</td>
+                <td>{{ order.user.email }}</td>
+                <td>
+                    {% for item in order.items.all %}
+                        <div style="font-size: 12px; color: #a0a0a0;">
+                            {{ item.product.name }} x{{ item.quantity }}
+                        </div>
+                    {% endfor %}
+                </td>
+                <td><strong style="color: #10b981; font-size: 15px;">₹{{ order.total_price }}</strong></td>
+                <td>
+                    <form method="POST" action="{% url 'update_order_status' order.id %}" style="display: flex; gap: 8px;">
+                        {% csrf_token %}
+                        <select name="status" style="background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); color: #e4e6eb; padding: 6px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                            {% for value, label in status_choices %}
+                            <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn-sm" style="background: #7c3aed; border: none; color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Update</button>
+                    </form>
+                </td>
+                <td>{{ order.created_at|date:"d M, Y" }}</td>
+                <td>
+                    <button style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" style="text-align: center; color: #707070; padding: 40px;">
+                    <i class="fas fa-inbox" style="font-size: 32px; margin-bottom: 16px; opacity: 0.5;"></i>
+                    <p>No orders found</p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

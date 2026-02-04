@@ -1,0 +1,420 @@
+{% include 'nav.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} | Nexus Store</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fafafa;
+            font-family: "Segoe UI", sans-serif;
+            margin-top: 30px;
+        }
+
+        .breadcrumb {
+            padding: 0 50px;
+            margin-bottom: 30px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: #111;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .product-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .product-image-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            min-height: 500px;
+        }
+
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-image.no-image {
+            font-size: 100px;
+            color: #ddd;
+        }
+
+        .product-details {
+            padding-top: 20px;
+        }
+
+        .product-category {
+            display: inline-block;
+            background: #f1f1f1;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .product-name {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #111;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .stars {
+            color: #ffc107;
+        }
+
+        .product-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #c62828;
+            margin-bottom: 20px;
+        }
+
+        .product-description {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        .product-specs {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #111;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 14px;
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #111;
+        }
+
+        .spec-value {
+            color: #666;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: #111;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #000;
+        }
+
+        .btn-secondary {
+            width: 50px;
+            background: white;
+            color: #111;
+            border: 2px solid #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-secondary:hover {
+            background: #f1f1f1;
+        }
+
+        /* Related Products */
+        .related-section {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 50px;
+            background: white;
+        }
+
+        .related-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-info {
+            padding: 16px;
+        }
+
+        .card-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #111;
+        }
+
+        .card-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #c62828;
+        }
+
+        .view-btn {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            background: #111;
+            color: white;
+            padding: 10px;
+            margin-top: 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .view-btn:hover {
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+    <a href="{% url 'home' %}">Home</a> > 
+    <a href="{% url 'products' %}">Products</a> > 
+    <a href="{% url 'products' %}?category={{ product.category.name }}">{{ product.category.name }}</a> > 
+    <span>{{ product.name }}</span>
+</div>
+
+<!-- Product Details -->
+<div class="product-container">
+    <!-- Image Section -->
+    <div class="product-image-section">
+        <div class="product-image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <i class="fa fa-shoe-prints"></i>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Details Section -->
+    <div class="product-details">
+        <span class="product-category">{{ product.category.name }}</span>
+        
+        <h1 class="product-name">{{ product.name }}</h1>
+
+        <div class="product-rating">
+            <div class="stars">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-half-alt"></i>
+            </div>
+            <span>(125 reviews)</span>
+        </div>
+
+        <div class="product-price">₹{{ product.price }}</div>
+
+        <div class="product-description">
+            {{ product.description|default:"Premium quality shoes designed for comfort and style." }}
+        </div>
+
+        <div class="product-specs">
+            <div class="spec-item">
+                <span class="spec-label">Category:</span>
+                <span class="spec-value">{{ product.category.name }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-label">Stock Available:</span>
+                <span class="spec-value">
+                    {% if product.stock > 0 %}
+                        {{ product.stock }} pairs
+                    {% else %}
+                        Out of Stock
+                    {% endif %}
+                </span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-label">SKU:</span>
+                <span class="spec-value">#{{ product.id }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-label">Availability:</span>
+                <span class="spec-value" style="{% if product.stock > 0 %}color: green;{% else %}color: red;{% endif %}">
+                    {% if product.stock > 0 %}In Stock{% else %}Out of Stock{% endif %}
+                </span>
+            </div>
+        </div>
+
+        <div class="product-actions">
+            {% if product.stock > 0 %}
+                {% if user.is_authenticated %}
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}" style="flex: 1;">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-shopping-bag" style="margin-right: 10px;"></i>Add to Cart
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa fa-shopping-bag" style="margin-right: 10px;"></i>Login to Buy
+                    </a>
+                {% endif %}
+            {% else %}
+                <button class="btn btn-primary" disabled style="opacity: 0.5; cursor: not-allowed;">
+                    <i class="fa fa-check-circle" style="margin-right: 10px;"></i>Out of Stock
+                </button>
+            {% endif %}
+            <button class="btn btn-secondary" onclick="alert('Wishlist coming soon!')">
+                <i class="fa fa-heart"></i>
+            </button>
+        </div>
+
+        <div style="padding-top: 20px; border-top: 1px solid #e5e5e5;">
+            <p style="font-size: 12px; color: #999; margin-top: 12px;">
+                <i class="fa fa-check-circle" style="color: green; margin-right: 6px;"></i> Free delivery on orders over ₹5000
+            </p>
+            <p style="font-size: 12px; color: #999; margin-top: 8px;">
+                <i class="fa fa-shield-alt" style="color: green; margin-right: 6px;"></i> 30-day returns policy
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Related Products -->
+{% if related_products %}
+<div class="related-section">
+    <h2 class="related-title">Related Products</h2>
+    <div class="related-grid">
+        {% for related in related_products %}
+            <div class="product-card">
+                <div class="card-image">
+                    {% if related.image %}
+                        <img src="{{ related.image.url }}" alt="{{ related.name }}">
+                    {% else %}
+                        <i class="fa fa-shoe-prints" style="font-size: 60px; color: #ddd;"></i>
+                    {% endif %}
+                </div>
+                <div class="card-info">
+                    <div class="card-name">{{ related.name }}</div>
+                    <div class="card-price">₹{{ related.price }}</div>
+                    <a href="{% url 'product_detail' related.id %}" class="view-btn">View</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+</body>
+</html>

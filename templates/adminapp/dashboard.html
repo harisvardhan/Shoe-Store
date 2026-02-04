@@ -1,0 +1,123 @@
+{% extends 'adminapp/base.html' %}
+
+{% block navbar_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- STAT CARDS -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon blue">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Total Users</h3>
+            <div class="value">{{ total_users }}</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon purple">
+            <i class="fas fa-box"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Total Products</h3>
+            <div class="value">{{ total_products }}</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon green">
+            <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Total Orders</h3>
+            <div class="value">{{ total_orders }}</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon orange">
+            <i class="fas fa-rupiah"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Total Revenue</h3>
+            <div class="value">₹{{ total_revenue|floatformat:0 }}</div>
+        </div>
+    </div>
+</div>
+
+<!-- RECENT ORDERS -->
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Recent Orders</div>
+        <div class="table-actions">
+            <a href="{% url 'admin_orders' %}" class="btn-primary btn-sm">View All</a>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in recent_orders %}
+            <tr>
+                <td>#{{ order.id }}</td>
+                <td>{{ order.user.get_full_name|default:order.user.username }}</td>
+                <td>₹{{ order.total_price }}</td>
+                <td>
+                    <span class="status-badge {{ order.status }}">
+                        {{ order.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ order.created_at|date:"d M, Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: #707070;">No orders yet</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- LOW STOCK PRODUCTS -->
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">⚠️ Low Stock Products</div>
+        <div class="table-actions">
+            <a href="{% url 'admin_products' %}" class="btn-primary btn-sm">Manage Products</a>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in low_stock_products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category.name }}</td>
+                <td><strong style="color: #f97316;">{{ product.stock }}</strong></td>
+                <td>₹{{ product.price }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: #707070;">All products have good stock</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

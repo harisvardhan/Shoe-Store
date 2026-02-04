@@ -1,0 +1,408 @@
+{% include 'nav.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation | Nexus Store</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fafafa;
+            font-family: "Segoe UI", sans-serif;
+            margin-top: 30px;
+        }
+
+        .confirmation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 50px;
+            margin-bottom: 80px;
+        }
+
+        .confirmation-header {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            color: white;
+        }
+
+        .confirmation-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .confirmation-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .order-number {
+            display: inline-block;
+            background: #f1f1f1;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 20px;
+        }
+
+        .order-details {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #111;
+        }
+
+        .detail-value {
+            color: #666;
+        }
+
+        .order-status {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #ffc107;
+            color: #111;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .order-items {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .items-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .item-row:last-child {
+            border-bottom: none;
+        }
+
+        .item-left {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .item-qty {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: #c62828;
+        }
+
+        .order-summary {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .summary-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111;
+            padding-top: 12px;
+            border-top: 2px solid #e5e5e5;
+            margin-top: 12px;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: #111;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #000;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #111;
+            border: 2px solid #111;
+        }
+
+        .btn-secondary:hover {
+            background: #f1f1f1;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .info-box p {
+            color: #1565c0;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+
+        .next-steps {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .steps-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: #111;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .step-text {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="confirmation-container">
+    <!-- Header -->
+    <div class="confirmation-header">
+        <div class="success-icon">
+            <i class="fa fa-check"></i>
+        </div>
+        <h1 class="confirmation-title">Order Confirmed!</h1>
+        <p class="confirmation-subtitle">Thank you for your purchase. Your order has been placed successfully.</p>
+        <div class="order-number">Order #{{ order.id }}</div>
+    </div>
+
+    <!-- Order Status -->
+    <div class="order-status">
+        <p style="margin-bottom: 12px;">Current Status:</p>
+        <span class="status-badge">{{ order.get_status_display }}</span>
+    </div>
+
+    <!-- Order Details -->
+    <div class="order-details">
+        <div class="detail-row">
+            <div class="detail-label">Order Date</div>
+            <div class="detail-value">{{ order.created_at|date:"M d, Y h:i A" }}</div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Shipping Address</div>
+            <div class="detail-value">{{ order.shipping_address }}</div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Phone Number</div>
+            <div class="detail-value">{{ order.phone }}</div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Expected Delivery</div>
+            <div class="detail-value">5-7 Business Days</div>
+        </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="order-items">
+        <div class="items-title">Order Items</div>
+        {% for item in order_items %}
+            <div class="item-row">
+                <div class="item-left">
+                    <div class="item-name">{{ item.product.name }}</div>
+                    <div class="item-qty">Quantity: {{ item.quantity }} pair(s)</div>
+                </div>
+                <div class="item-price">₹{{ item.get_item_total }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span>₹{{ order.total_price }}</span>
+        </div>
+        <div class="summary-row">
+            <span>Shipping</span>
+            <span>Free</span>
+        </div>
+        <div class="summary-row total">
+            <span>Total</span>
+            <span>₹{{ order.total_price }}</span>
+        </div>
+    </div>
+
+    <!-- Info Box -->
+    <div class="info-box">
+        <p><strong><i class="fa fa-envelope" style="margin-right: 8px;"></i>Confirmation Email</strong></p>
+        <p>A detailed order confirmation has been sent to {{ user.email }}</p>
+        <p style="margin-bottom: 0;"><strong><i class="fa fa-phone" style="margin-right: 8px;"></i>Order Support</strong></p>
+        <p>For any queries, contact us at support@nexusstore.com or call +1-800-NEXUS-01</p>
+    </div>
+
+    <!-- Next Steps -->
+    <div class="next-steps">
+        <div class="steps-title">What's Next?</div>
+        
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <div class="step-title">Order Confirmation</div>
+                <div class="step-text">You'll receive a confirmation email with order details shortly</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <div class="step-title">Order Processing</div>
+                <div class="step-text">Our team will process your order and prepare it for shipment</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <div class="step-title">Shipped</div>
+                <div class="step-text">You'll receive tracking information once your order ships</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <div class="step-title">Delivery</div>
+                <div class="step-text">Your order will be delivered to your address within 5-7 business days</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <a href="{% url 'my_orders' %}" class="btn btn-primary">View My Orders</a>
+        <a href="{% url 'products' %}" class="btn btn-secondary">Continue Shopping</a>
+    </div>
+</div>
+
+</body>
+</html>

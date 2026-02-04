@@ -1,0 +1,381 @@
+{% include 'nav.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Nexus Store</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fafafa;
+            font-family: "Segoe UI", sans-serif;
+            margin-top: 30px;
+        }
+
+        .orders-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 50px;
+            margin-bottom: 80px;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .orders-list {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .order-card {
+            border-bottom: 1px solid #e5e5e5;
+            padding: 24px;
+            transition: 0.2s;
+        }
+
+        .order-card:hover {
+            background: #f9f9f9;
+        }
+
+        .order-card:last-child {
+            border-bottom: none;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .order-header-left {
+            flex: 1;
+        }
+
+        .order-id {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .order-date {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.confirmed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-badge.shipped {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-badge.delivered {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-badge.cancelled {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .order-items {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .item-info {
+            flex: 1;
+            color: #666;
+        }
+
+        .item-qty {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .item-total {
+            font-weight: 600;
+            color: #111;
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-total {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .order-total-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .order-total-amount {
+            font-size: 18px;
+            font-weight: 700;
+            color: #c62828;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .btn-secondary {
+            background: #f1f1f1;
+            color: #111;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e5e5;
+        }
+
+        .btn-primary {
+            background: #111;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #000;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #111;
+        }
+
+        .empty-text {
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .empty-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #111;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .empty-link:hover {
+            background: #000;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 16px;
+        }
+
+        .filter-tab {
+            padding: 8px 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            font-size: 14px;
+        }
+
+        .filter-tab.active {
+            color: #111;
+            border-bottom-color: #111;
+        }
+
+        .filter-tab:hover {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="orders-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">My Orders</h1>
+        <p class="page-subtitle">Track and manage all your orders</p>
+    </div>
+
+    {% if orders %}
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterOrders('all')">All Orders</button>
+            <button class="filter-tab" onclick="filterOrders('pending')">Pending</button>
+            <button class="filter-tab" onclick="filterOrders('confirmed')">Confirmed</button>
+            <button class="filter-tab" onclick="filterOrders('shipped')">Shipped</button>
+            <button class="filter-tab" onclick="filterOrders('delivered')">Delivered</button>
+        </div>
+
+        <!-- Orders List -->
+        <div class="orders-list">
+            {% for order in orders %}
+                <div class="order-card" data-status="{{ order.status }}">
+                    <!-- Order Header -->
+                    <div class="order-header">
+                        <div class="order-header-left">
+                            <div class="order-id">Order #{{ order.id }}</div>
+                            <div class="order-date">{{ order.created_at|date:"M d, Y" }} at {{ order.created_at|date:"h:i A" }}</div>
+                        </div>
+                        <span class="status-badge {{ order.status }}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </div>
+
+                    <!-- Order Items -->
+                    <div class="order-items">
+                        {% for item in order.items.all %}
+                            <div class="item-row">
+                                <div class="item-info">
+                                    {{ item.product.name }}
+                                    <span class="item-qty">x{{ item.quantity }}</span>
+                                </div>
+                                <div class="item-total">₹{{ item.get_item_total }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Order Footer -->
+                    <div class="order-footer">
+                        <div class="order-total">
+                            <span class="order-total-label">Order Total:</span>
+                            <span class="order-total-amount">₹{{ order.total_price }}</span>
+                        </div>
+                        <div class="order-actions">
+                            <a href="{% url 'order_confirmation' order.id %}" class="btn btn-secondary">
+                                <i class="fa fa-eye" style="margin-right: 6px;"></i>View Details
+                            </a>
+                            {% if order.status == 'delivered' %}
+                                <button class="btn btn-primary" onclick="alert('Reorder feature coming soon!')">
+                                    <i class="fa fa-refresh" style="margin-right: 6px;"></i>Reorder
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fa fa-shopping-bag"></i>
+            </div>
+            <div class="empty-title">No Orders Yet</div>
+            <p class="empty-text">You haven't placed any orders. Start shopping now!</p>
+            <a href="{% url 'products' %}" class="empty-link">Browse Products</a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    function filterOrders(status) {
+        const cards = document.querySelectorAll('.order-card');
+        const tabs = document.querySelectorAll('.filter-tab');
+
+        // Update active tab
+        tabs.forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+
+        // Filter cards
+        if (status === 'all') {
+            cards.forEach(card => card.style.display = 'block');
+        } else {
+            cards.forEach(card => {
+                if (card.dataset.status === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

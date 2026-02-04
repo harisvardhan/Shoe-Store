@@ -1,0 +1,681 @@
+{% load static %}{% include 'nav.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Store - Premium Shoes for Everyone</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #fafafa;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            background: 
+                linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                url("{% static 'images/hero.jpg' %}") center/cover no-repeat;
+            color: white;
+            padding: 100px 50px;
+            text-align: center;
+            margin-top: 30px;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 32px;
+            color: #ccc;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            padding: 16px 40px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .hero-btn.primary {
+            background: #c62828;
+            color: white;
+        }
+
+        .hero-btn.primary:hover {
+            background: #b71c1c;
+        }
+
+        .hero-btn.secondary {
+            background: white;
+            color: #111;
+        }
+
+        .hero-btn.secondary:hover {
+            background: #f1f1f1;
+        }
+
+        /* ===== Featured Categories ===== */
+        .categories-section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 50px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #111;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: white;
+            overflow: hidden;
+        }
+
+        .category-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .category-card:nth-child(2) .category-image {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .category-card:nth-child(3) .category-image {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .category-info {
+            padding: 24px;
+            text-align: center;
+        }
+
+        .category-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .category-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .category-link {
+            display: inline-block;
+            color: #c62828;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .category-link:hover {
+            color: #b71c1c;
+        }
+
+        /* ===== Featured Products ===== */
+        .products-section {
+            background: white;
+            padding: 80px 50px;
+            margin: 0;
+        }
+
+        .products-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #ddd;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 16px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #c62828;
+            margin-bottom: 12px;
+        }
+
+        .view-btn {
+            width: 100%;
+            padding: 10px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .view-btn:hover {
+            background: #000;
+        }
+
+        /* ===== Why Choose Us ===== */
+        .why-us-section {
+            background: #f9f9f9;
+            padding: 80px 50px;
+        }
+
+        .why-us-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .why-card {
+            text-align: center;
+        }
+
+        .why-icon {
+            font-size: 48px;
+            color: #c62828;
+            margin-bottom: 16px;
+        }
+
+        .why-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .why-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* ===== Testimonials ===== */
+        .testimonials-section {
+            background: white;
+            padding: 80px 50px;
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #c62828;
+        }
+
+        .testimonial-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: #111;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .testimonial-role {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .testimonial-stars {
+            color: #ffc107;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        /* ===== CTA Section ===== */
+        .cta-section {
+            background: 
+                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                url("{% static 'images/category-bg.jpg' %}") center/cover no-repeat;
+            color: white;
+            padding: 80px 50px;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-text {
+            font-size: 16px;
+            margin-bottom: 32px;
+            color: #ccc;
+        }
+
+        .cta-btn {
+            padding: 16px 50px;
+            background: #c62828;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: #b71c1c;
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: #111;
+            color: white;
+            padding: 60px 50px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #999;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 12px;
+            transition: 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: #c62828;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+            justify-content: center;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: #c62828;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .social-links a:hover {
+            background: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== Hero Section ===== -->
+<section class="hero">
+    <h1>Step Into Excellence</h1>
+    <p>Discover our premium collection of shoes designed for comfort, style, and durability. From casual sneakers to formal elegance, we have the perfect pair for you.</p>
+    <div class="hero-buttons">
+        <a href="{% url 'products' %}" class="hero-btn primary">Shop Now</a>
+        <button class="hero-btn secondary" onclick="document.querySelector('.categories-section').scrollIntoView({behavior: 'smooth'})">Explore Categories</button>
+    </div>
+</section>
+
+<!-- ===== Featured Categories ===== -->
+<section class="categories-section">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="categories-grid">
+        <div class="category-card">
+            <div class="category-image">
+                <img src="{% static 'images/men.jpg' %}" alt="Men Shoes">
+            </div>
+            <div class="category-info">
+                <div class="category-name">Men's Shoes</div>
+                <div class="category-desc">Premium collection for the modern man</div>
+                <a href="{% url 'products' %}?category=Men's Shoes" class="category-link">Shop Men →</a>
+            </div>
+        </div>
+
+        <div class="category-card">
+            <div class="category-image">
+                <img src="{% static 'images/women.jpg' %}" alt="Women Shoes">
+            </div>
+            <div class="category-info">
+                <div class="category-name">Women's Shoes</div>
+                <div class="category-desc">Elegant and comfortable styles</div>
+                <a href="{% url 'products' %}?category=Women's Shoes" class="category-link">Shop Women →</a>
+            </div>
+        </div>
+
+        <div class="category-card">
+            <div class="category-image">
+                <img src="{% static 'images/unisex.jpg' %}" alt="Unisex Shoes">
+            </div>
+            <div class="category-info">
+                <div class="category-name">Unisex Shoes</div>
+                <div class="category-desc">Comfortable for everyone</div>
+                <a href="{% url 'products' %}?category=Unisex Shoes" class="category-link">Shop Unisex →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Featured Products ===== -->
+<section class="products-section">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="products-grid">
+        {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <i class="fa fa-shoe-prints"></i>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <div class="product-name">{{ product.name }}</div>
+                    <div class="product-price">₹{{ product.price }}</div>
+                    <a href="{% url 'product_detail' product.id %}" class="view-btn">View Details</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- ===== Why Choose Us ===== -->
+<section class="why-us-section">
+    <h2 class="section-title">Why Choose Nexus Store?</h2>
+    <div class="why-us-container">
+        <div class="why-card">
+            <div class="why-icon">
+                <i class="fa fa-shipping-fast"></i>
+            </div>
+            <div class="why-title">Fast Shipping</div>
+            <div class="why-text">Get your orders delivered within 5-7 business days with free shipping on orders above ₹5000</div>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">
+                <i class="fa fa-shield-alt"></i>
+            </div>
+            <div class="why-title">100% Authentic</div>
+            <div class="why-text">All our products are 100% original and sourced directly from trusted manufacturers</div>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">
+                <i class="fa fa-undo"></i>
+            </div>
+            <div class="why-title">Easy Returns</div>
+            <div class="why-text">30-day hassle-free return policy. Not satisfied? Return it for a full refund</div>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">
+                <i class="fa fa-headset"></i>
+            </div>
+            <div class="why-title">Customer Support</div>
+            <div class="why-text">24/7 customer support to assist with any questions or concerns</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Testimonials ===== -->
+<section class="testimonials-section">
+    <h2 class="section-title">What Our Customers Say</h2>
+    <div class="testimonials-container">
+        <div class="testimonial-card">
+            <div class="testimonial-stars">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+            </div>
+            <div class="testimonial-text">"Excellent quality shoes at great prices! The delivery was fast and the customer service was very helpful. Highly recommended!"</div>
+            <div class="testimonial-author">Rajesh Kumar</div>
+            <div class="testimonial-role">Verified Buyer</div>
+        </div>
+
+        <div class="testimonial-card">
+            <div class="testimonial-stars">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+            </div>
+            <div class="testimonial-text">"I've purchased multiple pairs from Nexus Store. The variety is amazing and the prices are very competitive. Definitely my go-to store!"</div>
+            <div class="testimonial-author">Priya Singh</div>
+            <div class="testimonial-role">Verified Buyer</div>
+        </div>
+
+        <div class="testimonial-card">
+            <div class="testimonial-stars">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+            </div>
+            <div class="testimonial-text">"Great experience from start to finish. The website is easy to navigate, checkout is smooth, and I love my new shoes!"</div>
+            <div class="testimonial-author">Amit Patel</div>
+            <div class="testimonial-role">Verified Buyer</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA Section ===== -->
+<section class="cta-section">
+    <div class="cta-content">
+        <h2 class="cta-title">Ready to Find Your Perfect Pair?</h2>
+        <p class="cta-text">Explore our complete collection and discover shoes that match your style and comfort needs.</p>
+        <a href="{% url 'products' %}" class="cta-btn">Browse All Products</a>
+    </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>About Us</h4>
+            <a href="#">Our Story</a>
+            <a href="#">Careers</a>
+            <a href="#">Sustainability</a>
+            <a href="#">Blog</a>
+        </div>
+
+        <div class="footer-section">
+            <h4>Customer Service</h4>
+            <a href="#">Contact Us</a>
+            <a href="#">FAQs</a>
+            <a href="#">Shipping Info</a>
+            <a href="#">Returns</a>
+        </div>
+
+        <div class="footer-section">
+            <h4>Policies</h4>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Cookie Policy</a>
+            <a href="#">Refund Policy</a>
+        </div>
+
+        <div class="footer-section">
+            <h4>Connect With Us</h4>
+            <a href="#">Newsletter</a>
+            <a href="#">Community</a>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 Nexus Store. All rights reserved. | Designed with ❤️ for shoe lovers.</p>
+    </div>
+</footer>
+
+</body>
+</html>

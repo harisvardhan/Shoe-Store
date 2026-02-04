@@ -1,0 +1,238 @@
+{% extends 'adminapp/base.html' %}
+
+{% block navbar_title %}Sales Report{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<!-- TOP STATS -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon orange">
+            <i class="fas fa-rupiah"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Total Revenue</h3>
+            <div class="value">₹{{ total_revenue|floatformat:0 }}</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon blue">
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Total Orders</h3>
+            <div class="value">{{ total_orders }}</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon green">
+            <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Avg Order Value</h3>
+            <div class="value">₹{{ avg_order_value|floatformat:0 }}</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon purple">
+            <i class="fas fa-percent"></i>
+        </div>
+        <div class="stat-content">
+            <h3>Growth</h3>
+            <div class="value">+12.5%</div>
+        </div>
+    </div>
+</div>
+
+<!-- CHARTS SECTION -->
+<div class="charts-grid">
+    <!-- ORDERS PER DAY CHART -->
+    <div class="chart-card">
+        <div class="chart-title">
+            <i class="fas fa-calendar"></i> Last 7 Days Orders
+        </div>
+        <canvas id="ordersChart"></canvas>
+    </div>
+
+    <!-- ORDER STATUS BREAKDOWN -->
+    <div class="chart-card">
+        <div class="chart-title">
+            <i class="fas fa-chart-pie"></i> Order Status Breakdown
+        </div>
+        <canvas id="statusChart"></canvas>
+    </div>
+</div>
+
+<!-- TOP PRODUCTS TABLE -->
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Top 5 Best Selling Products</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Product</th>
+                <th>Units Sold</th>
+                <th>Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in top_products %}
+            <tr>
+                <td>
+                    <span class="status-badge confirmed" style="background: rgba(124, 58, 237, 0.2); color: #7c3aed;">
+                        #{{ forloop.counter }}
+                    </span>
+                </td>
+                <td><strong>{{ product.product__name }}</strong></td>
+                <td>{{ product.total_qty }} units</td>
+                <td style="color: #10b981; font-weight: 600;">₹{{ product.total_qty }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: #707070; padding: 40px;">
+                    No sales data yet
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- DETAILED STATS -->
+<div class="charts-grid">
+    <div style="background: linear-gradient(135deg, #1a1f3a 0%, #16213e 100%); border: 1px solid #2d3561; border-radius: 12px; padding: 20px;">
+        <h3 style="color: #fff; margin-bottom: 20px; font-size: 16px;">
+            <i class="fas fa-info-circle"></i> Order Status Summary
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+            <div style="padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; border-left: 4px solid #f97316;">
+                <p style="font-size: 12px; color: #a0a0a0; margin-bottom: 8px;">Pending Orders</p>
+                <p style="font-size: 24px; font-weight: 700; color: #f97316;">{{ pending }}</p>
+            </div>
+            <div style="padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; border-left: 4px solid #3b82f6;">
+                <p style="font-size: 12px; color: #a0a0a0; margin-bottom: 8px;">Confirmed Orders</p>
+                <p style="font-size: 24px; font-weight: 700; color: #3b82f6;">{{ confirmed }}</p>
+            </div>
+            <div style="padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; border-left: 4px solid #a855f7;">
+                <p style="font-size: 12px; color: #a0a0a0; margin-bottom: 8px;">Shipped Orders</p>
+                <p style="font-size: 24px; font-weight: 700; color: #a855f7;">{{ shipped }}</p>
+            </div>
+            <div style="padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; border-left: 4px solid #10b981;">
+                <p style="font-size: 12px; color: #a0a0a0; margin-bottom: 8px;">Delivered Orders</p>
+                <p style="font-size: 24px; font-weight: 700; color: #10b981;">{{ delivered }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: linear-gradient(135deg, #1a1f3a 0%, #16213e 100%); border: 1px solid #2d3561; border-radius: 12px; padding: 20px;">
+        <h3 style="color: #fff; margin-bottom: 20px; font-size: 16px;">
+            <i class="fas fa-lightbulb"></i> Quick Actions
+        </h3>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="{% url 'admin_orders' %}" class="btn-primary btn-sm" style="text-align: center;">
+                <i class="fas fa-list"></i> View All Orders
+            </a>
+            <a href="{% url 'admin_products' %}" class="btn-secondary btn-sm" style="text-align: center;">
+                <i class="fas fa-box"></i> Manage Products
+            </a>
+            <a href="{% url 'admin_users' %}" class="btn-secondary btn-sm" style="text-align: center;">
+                <i class="fas fa-users"></i> View Users
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Orders per day chart
+    const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+    const ordersChart = new Chart(ordersCtx, {
+        type: 'line',
+        data: {
+            labels: {{ last_7_days|safe }},
+            datasets: [{
+                label: 'Orders',
+                data: {{ daily_orders|safe }},
+                borderColor: '#7c3aed',
+                backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#7c3aed',
+                pointBorderColor: '#fff',
+                pointRadius: 6,
+                pointHoverRadius: 8,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#2d3561',
+                    },
+                    ticks: {
+                        color: '#a0a0a0',
+                    }
+                },
+                x: {
+                    grid: {
+                        color: '#2d3561',
+                    },
+                    ticks: {
+                        color: '#a0a0a0',
+                    }
+                }
+            }
+        }
+    });
+
+    // Status breakdown chart
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    const statusChart = new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Pending', 'Confirmed', 'Shipped', 'Delivered'],
+            datasets: [{
+                data: [{{ pending }}, {{ confirmed }}, {{ shipped }}, {{ delivered }}],
+                backgroundColor: [
+                    '#f97316',
+                    '#3b82f6',
+                    '#a855f7',
+                    '#10b981',
+                ],
+                borderColor: '#1a1f3a',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#a0a0a0',
+                        padding: 15,
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

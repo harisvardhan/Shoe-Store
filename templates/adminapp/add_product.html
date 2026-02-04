@@ -1,0 +1,71 @@
+{% extends 'adminapp/base.html' %}
+
+{% block navbar_title %}Add New Product{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 style="font-size: 24px; margin-bottom: 30px; color: #fff;">
+        <i class="fas fa-plus-circle" style="color: #7c3aed;"></i> Add New Product
+    </h2>
+
+    {% if error %}
+    <div style="background: rgba(220, 38, 38, 0.2); border: 1px solid #ef4444; color: #fca5a5; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+        <i class="fas fa-exclamation-circle"></i> {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="name">Product Name *</label>
+            <input type="text" id="name" name="name" placeholder="e.g. Premium Running Shoes" required>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category *</label>
+            <select id="category" name="category" required>
+                <option value="">-- Select Category --</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+                <label for="price">Price (₹) *</label>
+                <input type="number" id="price" name="price" placeholder="e.g. 4500" step="0.01" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="stock">Stock Quantity *</label>
+                <input type="number" id="stock" name="stock" placeholder="e.g. 50" min="0" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Product description and details..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Product Image</label>
+            <input type="file" id="image" name="image" accept="image/*">
+            <small style="color: #a0a0a0; display: block; margin-top: 8px;">
+                <i class="fas fa-info-circle"></i> Recommended: 400x400px, JPG/PNG
+            </small>
+        </div>
+
+        <div class="form-actions">
+            <a href="{% url 'admin_products' %}" class="btn-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+            <button type="submit" class="btn-primary">
+                <i class="fas fa-save"></i> Add Product
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

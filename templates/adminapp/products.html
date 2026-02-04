@@ -1,0 +1,77 @@
+{% extends 'adminapp/base.html' %}
+
+{% block navbar_title %}Products Management{% endblock %}
+
+{% block navbar_search %}
+<form method="GET" style="display: flex; gap: 8px;">
+    <input type="text" name="search" class="navbar-search" placeholder="Search products..." value="{{ search_query }}">
+    <button type="submit" style="background: #7c3aed; border: none; padding: 8px 16px; border-radius: 20px; color: #fff; cursor: pointer;">Search</button>
+</form>
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">All Products ({{ products.count }})</div>
+        <div class="table-actions">
+            <a href="{% url 'admin_add_product' %}" class="btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Add Product
+            </a>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Added</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>
+                    <strong>{{ product.name }}</strong>
+                </td>
+                <td>{{ product.category.name }}</td>
+                <td>
+                    <strong style="color: #10b981;">₹{{ product.price }}</strong>
+                </td>
+                <td>
+                    {% if product.stock < 5 %}
+                        <span style="color: #f97316; font-weight: 600;">{{ product.stock }}</span>
+                    {% elif product.stock < 20 %}
+                        <span style="color: #eab308; font-weight: 600;">{{ product.stock }}</span>
+                    {% else %}
+                        <span style="color: #10b981;">{{ product.stock }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if product.is_active %}
+                        <span class="status-badge delivered">
+                            <i class="fas fa-check-circle"></i> Active
+                        </span>
+                    {% else %}
+                        <span class="status-badge cancelled">
+                            <i class="fas fa-eye-slash"></i> Inactive
+                        </span>
+                    {% endif %}
+                </td>
+                <td>{{ product.created_at|date:"d M, Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align: center; color: #707070; padding: 40px;">
+                    <i class="fas fa-box-open" style="font-size: 32px; margin-bottom: 16px; opacity: 0.5;"></i>
+                    <p>No products found</p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

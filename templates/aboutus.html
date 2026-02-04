@@ -1,0 +1,441 @@
+{% load static %}{% include 'nav.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Nexus Store</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #fafafa;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url("{% static 'images/hero.jpg' %}") center/cover no-repeat;
+            color: white;
+            padding: 100px 50px;
+            text-align: center;
+            margin-top: 30px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #ccc;
+            max-width: 600px;
+        }
+
+        /* ===== About Content ===== */
+        .about-container {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 50px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #111;
+        }
+
+        /* About Story */
+        .about-story {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .story-content h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #111;
+        }
+
+        .story-content p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: white;
+        }
+
+        /* Mission & Vision */
+        .mission-vision {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .mission-card, .vision-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .mission-card h3, .vision-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #111;
+        }
+
+        .mission-card .icon, .vision-card .icon {
+            font-size: 50px;
+            margin-bottom: 16px;
+        }
+
+        .mission-card .icon {
+            color: #c62828;
+        }
+
+        .vision-card .icon {
+            color: #111;
+        }
+
+        .mission-card p, .vision-card p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Why Choose Us */
+        .why-choose {
+            background: white;
+            padding: 60px 50px;
+            border-radius: 12px;
+            margin-bottom: 80px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .why-choose h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #111;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-item .icon {
+            font-size: 40px;
+            color: #c62828;
+            margin-bottom: 16px;
+        }
+
+        .feature-item h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Team Section */
+        .team-section {
+            margin-bottom: 80px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .team-member-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: white;
+        }
+
+        .team-member-info {
+            padding: 24px;
+        }
+
+        .team-member-info h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #111;
+        }
+
+        .team-member-info p {
+            font-size: 14px;
+            color: #c62828;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .team-member-info .description {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url("{% static 'images/category-bg.jpg' %}") center/cover no-repeat;
+            color: white;
+            padding: 80px 50px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 80px;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            background: #c62828;
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: #b71c1c;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f1f1f;
+            color: #ccc;
+            padding: 60px 50px 30px;
+            text-align: center;
+        }
+
+        .footer p {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-story {
+                grid-template-columns: 1fr;
+            }
+
+            .mission-vision {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .about-container, .about-story, .why-choose, .cta-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <h1>About Nexus Store</h1>
+    <p>Your Premium Destination for Quality Footwear</p>
+</div>
+
+<!-- ABOUT CONTAINER -->
+<div class="about-container">
+    
+    <!-- STORY SECTION -->
+    <div class="about-story">
+        <div class="story-content">
+            <h2>Our Story</h2>
+            <p>Nexus Store was founded with a simple mission: to provide premium quality footwear that combines comfort, style, and durability. What started as a small vision has grown into a trusted brand for shoe enthusiasts across the country.</p>
+            <p>We believe that every step you take should be comfortable and confident. That's why we carefully curate our collection of shoes, ensuring that every pair meets our high standards of quality and craftsmanship.</p>
+            <p>Today, Nexus Store stands as a beacon of excellence in the footwear industry, serving thousands of satisfied customers who trust us for their daily wear, sports, and special occasions.</p>
+        </div>
+        <div class="story-image">
+            <i class="fas fa-shoe-prints"></i>
+        </div>
+    </div>
+
+    <!-- MISSION & VISION -->
+    <div class="mission-vision">
+        <div class="mission-card">
+            <div class="icon"><i class="fas fa-bullseye"></i></div>
+            <h3>Our Mission</h3>
+            <p>To deliver exceptional footwear that enhances the quality of life for our customers through innovation, quality, and outstanding customer service.</p>
+        </div>
+        <div class="vision-card">
+            <div class="icon"><i class="fas fa-eye"></i></div>
+            <h3>Our Vision</h3>
+            <p>To become the most trusted and preferred footwear brand in the market, recognized for our commitment to excellence and customer satisfaction.</p>
+        </div>
+    </div>
+
+    <!-- WHY CHOOSE US -->
+    <div class="why-choose">
+        <h2>Why Choose Nexus Store?</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="icon"><i class="fas fa-check-circle"></i></div>
+                <h4>100% Authentic</h4>
+                <p>All products are 100% genuine and sourced directly from authorized distributors.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon"><i class="fas fa-truck"></i></div>
+                <h4>Fast Shipping</h4>
+                <p>Get your shoes delivered to your doorstep within 2-3 working days.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon"><i class="fas fa-undo"></i></div>
+                <h4>Easy Returns</h4>
+                <p>Hassle-free returns within 30 days of purchase if you're not satisfied.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon"><i class="fas fa-headset"></i></div>
+                <h4>24/7 Support</h4>
+                <p>Our dedicated support team is always ready to help you with any questions.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                <h4>Secure Payment</h4>
+                <p>Safe and secure payment options to protect your transaction.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <h4>Best Prices</h4>
+                <p>Competitive prices with regular discounts and exclusive offers.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEAM SECTION -->
+    <h2 class="section-title">Meet Our Team</h2>
+    <p style="text-align: center; font-size: 16px; color: #555; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">Maintained and Run by Nexii Computer Science Engineers</p>
+    <div class="team-grid">
+        <div class="team-member">
+            <div class="team-member-image">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="team-member-info">
+                <h4>Harisvardhan Singh</h4>
+                <p>Founder & CEO</p>
+                <div class="description">With 15 years of experience in retail, Harisvardhan founded Nexus Store with a passion for quality footwear.</div>
+            </div>
+        </div>
+        <div class="team-member">
+            <div class="team-member-image">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="team-member-info">
+                <h4>Dr Siddardha Dasari</h4>
+                <p>Full Stack Developer</p>
+                <div class="description">Expert in modern web technologies, Dr Dasari leads the technical development and maintains the platform's infrastructure.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA SECTION -->
+    <div class="cta-section">
+        <h2>Ready to Find Your Perfect Pair?</h2>
+        <p>Browse our collection of premium shoes and discover the comfort and style you deserve.</p>
+        <a href="{% url 'products' %}" class="cta-btn">
+            <i class="fas fa-shopping-bag"></i> Shop Now
+        </a>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>&copy; 2024 Nexus Store. All Rights Reserved.</p>
+    <p>Your trusted destination for premium footwear | Visit us today!</p>
+</div>
+
+</body>
+</html>
