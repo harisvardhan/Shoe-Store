@@ -6,6 +6,7 @@
     <title>Nexus Store</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -82,18 +83,52 @@
 
         /* Logo */
         .logo {
-            font-size: 26px;
-            letter-spacing: 2px;
+            font-size: 28px;
+            letter-spacing: 3px;
             font-weight: 700;
             color: #111;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
             display: flex;
             align-items: center;
-            gap: 10px;
-            cursor: pointer;
+            gap: 12px;
         }
-        .logo-shoe {
-            width: 36px;
-            height: 36px;
+
+        /* Shoe Icon Animation */
+        .shoe-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: shoeGlow 2.5s ease-in-out infinite, shoePulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes shoeGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2));
+            }
+            50% {
+                filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.4));
+            }
+        }
+
+        @keyframes shoePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .shoe-icon svg {
+            fill: #4caf50;
+            transition: 0.3s;
+        }
+
+        .logo:hover .shoe-icon svg {
+            filter: brightness(0.85);
         }
 
         /* Nav Links */
@@ -280,6 +315,144 @@
         .future-modal .fm-card p { color: #444; margin-bottom: 18px; }
         .future-modal .fm-close { position: absolute; right: 12px; top: 10px; background: none; border: none; font-size: 20px; cursor: pointer; }
         .future-modal .fm-ok { background: #111; color: #fff; padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
+
+        /* ===== Login Modal ===== */
+        .login-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .login-modal.open {
+            display: flex;
+        }
+
+        .login-modal-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 40px;
+            width: 420px;
+            max-width: calc(100% - 40px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: pendulumSwing 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        @keyframes pendulumSwing {
+            0% {
+                transform: translateX(-100%) rotateZ(-15deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translateX(80%) rotateZ(8deg);
+            }
+            75% {
+                transform: translateX(-20%) rotateZ(-3deg);
+            }
+            100% {
+                transform: translateX(0) rotateZ(0deg);
+                opacity: 1;
+            }
+        }
+
+        .login-modal h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #111;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .login-modal-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 28px;
+        }
+
+        .login-modal .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-modal label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .login-modal input[type="email"],
+        .login-modal input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .login-modal input:focus {
+            outline: none;
+            border-color: #111;
+            box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.1);
+        }
+
+        .login-modal-button {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 8px;
+        }
+
+        .login-modal-button:hover {
+            background: #333;
+        }
+
+        .login-modal-footer {
+            text-align: center;
+            font-size: 13px;
+            margin-top: 16px;
+            color: #666;
+        }
+
+        .login-modal-footer a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-modal-footer a:hover {
+            color: #c62828;
+        }
+
+        .login-modal-close {
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.2s;
+        }
+
+        .login-modal-close:hover {
+            color: #111;
+        }
     </style>
 </head>
 <body>
@@ -295,11 +468,13 @@
 <nav class="navbar">
 
     <div class="logo">
-        <svg class="logo-shoe" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" width="32" height="32">
-            <path d="M10 40 Q15 20 40 18 L70 20 Q80 22 85 40 L80 45 Q75 48 70 47 L15 48 Q10 48 10 40 Z" fill="#1a1a1a" stroke="#000" stroke-width="1"/>
-            <path d="M15 40 L20 25 L25 22 L30 25 L28 40 Z" fill="#2d2d2d"/>
-        </svg>
-        <span>NEXUS STORE</span>
+        <div class="shoe-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="50" height="50">
+                <rect x="10" y="10" width="44" height="44" rx="8" fill="#f5f5f5"/>
+                <path d="M16 44 L28 24 L36 38 L48 16" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+        </div>
+        NEXUS STORE
     </div>
 
     <ul class="nav-links">
@@ -387,10 +562,10 @@
                 Logout
             </a>
         {% else %}
-            <a href="/login/" style="text-decoration: none; color: #333; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+            <button onclick="openLoginModal()" style="background: none; border: none; text-decoration: none; color: #333; font-size: 14px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
                 <i class="fa fa-user" style="font-size:18px"></i>
                 <span>Account</span>
-            </a>
+            </button>
         {% endif %}
     </div>
 </nav>
@@ -444,7 +619,56 @@
         // close on ESC
         document.addEventListener('keydown', function(e){ if(e.key === 'Escape') window.closeFutureModal(); });
     })();
+
+    // Login Modal Functions
+    function openLoginModal(){
+        var m = document.getElementById('login-modal');
+        if(m) m.classList.add('open');
+    }
+    window.closeLoginModal = function(){
+        var m = document.getElementById('login-modal');
+        if(m) m.classList.remove('open');
+    }
+
+    // Close modal when clicking backdrop
+    document.addEventListener('click', function(e){
+        if(e.target.id === 'login-modal') window.closeLoginModal();
+    });
+
+    // Close modal on ESC
+    document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape') window.closeLoginModal();
+    });
 </script>
+
+<!-- ===== Login Modal ===== -->
+<div id="login-modal" class="login-modal">
+    <div class="login-modal-card">
+        <button class="login-modal-close" onclick="window.closeLoginModal()">×</button>
+        <h2>Welcome Back</h2>
+        <p class="login-modal-subtitle">Login to your Nexus Store account</p>
+
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="login-modal-button">Login</button>
+        </form>
+
+        <div class="login-modal-footer">
+            Don't have an account? <a href="{% url 'register' %}">Register here</a>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
