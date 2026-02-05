@@ -26,9 +26,36 @@
             color: #eee;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             padding: 0 50px;
-            font-size: 13px;
+            font-size: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .marquee-container {
+            display: flex;
+            width: 100%;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .marquee-text {
+            white-space: nowrap;
+            font-weight: 600;
+            color: #ffd700;
+        }
+
+        .marquee-container:hover {
+            animation-play-state: paused;
         }
 
         .utility-bar a {
@@ -259,11 +286,8 @@
 
 <!-- ===== Utility Bar ===== -->
 <div class="utility-bar">
-    <div>📍 Find a Store</div>
-    <div>Summer Sale — Flat 20% OFF</div>
-    <div>
-        <a href="#">Track Order</a>
-        <a href="#">Help</a>
+    <div class="marquee-container">
+        <span class="marquee-text">🎁 Summer Sale — Flat 20% OFF on All Products! | 🎁 Summer Sale — Flat 20% OFF on All Products! | 🎁 Summer Sale — Flat 20% OFF on All Products!</span>
     </div>
 </div>
 
