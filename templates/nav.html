@@ -338,20 +338,25 @@
             width: 420px;
             max-width: calc(100% - 40px);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            animation: pendulumSwing 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* pendulum-style entrance: slower and anchored at top */
+            transform-origin: top center;
+            animation: pendulumSwing 2s cubic-bezier(.22,.8,.22,1) both;
             position: relative;
         }
-
         @keyframes pendulumSwing {
             0% {
-                transform: translateX(-100%) rotateZ(-15deg);
+                transform: translateX(-60%) rotateZ(-12deg);
                 opacity: 0;
             }
-            50% {
-                transform: translateX(80%) rotateZ(8deg);
+            30% {
+                transform: translateX(60%) rotateZ(12deg);
+                opacity: 1;
             }
-            75% {
-                transform: translateX(-20%) rotateZ(-3deg);
+            60% {
+                transform: translateX(-18%) rotateZ(-4deg);
+            }
+            85% {
+                transform: translateX(8%) rotateZ(2deg);
             }
             100% {
                 transform: translateX(0) rotateZ(0deg);
