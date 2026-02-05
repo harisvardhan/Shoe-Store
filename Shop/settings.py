@@ -92,7 +92,7 @@ EMAIL_HOST_USER = 'shoestorenexus@gmail.com'
 EMAIL_HOST_PASSWORD = 'hpugsisazkjzwgiq'
 
 # Recommended email defaults
-DEFAULT_FROM_EMAIL = 'Nexus Store <shoesstorenexus@gmail.com>'
+DEFAULT_FROM_EMAIL = 'Nexus Store <shoestorenexus@gmail.com>'
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_TIMEOUT = 10
 

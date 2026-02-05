@@ -6,6 +6,7 @@ from django.core.mail import send_mail, EmailMessage, get_connection
 import logging
 from django.conf import settings
 from datetime import datetime, timedelta
+from django.utils import timezone
 from .models import UserProfile
 
 # Registration View
@@ -108,7 +109,7 @@ def login_view(request):
                 # Generate OTP
                 profile = user.profile
                 otp = profile.generate_otp()
-                profile.otp_created_at = datetime.now()
+                profile.otp_created_at = timezone.now()
                 profile.otp_verified = False
                 profile.save()
                 
@@ -166,7 +167,7 @@ def verify_otp(request):
             
             # Check OTP validity (10 minutes)
             if profile.otp_created_at:
-                elapsed = datetime.now() - profile.otp_created_at.replace(tzinfo=None)
+                elapsed = timezone.now() - profile.otp_created_at
                 if elapsed > timedelta(minutes=10):
                     messages.error(request, 'OTP expired! Please login again.')
                     del request.session['login_user_id']
